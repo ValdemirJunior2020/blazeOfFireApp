@@ -1,22 +1,8 @@
 // File: app/(tabs)/_layout.tsx
 import React from "react";
-import { Text } from "react-native";
 import { Tabs } from "expo-router";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { theme } from "../../constants/theme";
-
-function TabIcon({ label, focused }: { label: string; focused: boolean }) {
-  return (
-    <Text
-      style={{
-        color: focused ? theme.colors.gold : "#8A8A8A",
-        fontSize: 12,
-        fontFamily: "MontserratSemiBold"
-      }}
-    >
-      {label}
-    </Text>
-  );
-}
 
 export default function TabsLayout() {
   return (
@@ -29,12 +15,14 @@ export default function TabsLayout() {
         tabBarStyle: {
           backgroundColor: "#060606",
           borderTopColor: theme.colors.border,
-          height: 70,
+          height: 72,
           paddingTop: 8,
           paddingBottom: 10
         },
         tabBarLabelStyle: {
-          display: "none"
+          fontFamily: "MontserratSemiBold",
+          fontSize: 11,
+          marginTop: 2
         },
         tabBarActiveTintColor: theme.colors.gold,
         tabBarInactiveTintColor: "#8A8A8A"
@@ -44,42 +32,63 @@ export default function TabsLayout() {
         name="home"
         options={{
           title: "Home",
-          tabBarIcon: ({ focused }) => <TabIcon label="Home" focused={focused} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? "home" : "home-outline"} size={size} color={color} />
+          )
         }}
       />
+
       <Tabs.Screen
         name="live"
         options={{
           title: "Live",
-          tabBarIcon: ({ focused }) => <TabIcon label="Live" focused={focused} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? "play-circle" : "play-circle-outline"} size={size} color={color} />
+          )
         }}
       />
+
       <Tabs.Screen
         name="prayer"
         options={{
           title: "Prayer",
-          tabBarIcon: ({ focused }) => <TabIcon label="Prayer" focused={focused} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <MaterialCommunityIcons
+              name={focused ? "hands-pray" : "hands-pray"}
+              size={size}
+              color={color}
+            />
+          )
         }}
       />
+
       <Tabs.Screen
         name="community"
         options={{
-          title: "Community",
-          tabBarIcon: ({ focused }) => <TabIcon label="People" focused={focused} />
+          title: "People",
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? "people" : "people-outline"} size={size} color={color} />
+          )
         }}
       />
+
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
-          tabBarIcon: ({ focused }) => <TabIcon label="Me" focused={focused} />
+          title: "Me",
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? "person" : "person-outline"} size={size} color={color} />
+          )
         }}
       />
+
       <Tabs.Screen
         name="giving"
         options={{
           title: "Giving",
-          tabBarIcon: ({ focused }) => <TabIcon label="Giving" focused={focused} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? "heart" : "heart-outline"} size={size} color={color} />
+          )
         }}
       />
     </Tabs>

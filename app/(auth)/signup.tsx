@@ -1,49 +1,73 @@
 // File: app/(auth)/signup.tsx
-
 import React, { useState } from "react";
-import { Alert, Text, TextInput, View } from "react-native";
-import { Link, router } from "expo-router";
+import { Alert, Platform, Text, TextInput, View } from "react-native";
+import { router } from "expo-router";
+import AppShell from "../../components/AppShell";
 import BrandHeader from "../../components/BrandHeader";
 import GoldButton from "../../components/GoldButton";
-import AppShell from "../../components/AppShell";
-import { useAuth } from "../../context/AuthContext";
 import { theme } from "../../constants/theme";
+import { useAuth } from "../../context/AuthContext";
 
 export default function SignupScreen() {
   const { signup } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const showMessage = (title: string, message: string) => {
+    if (Platform.OS === "web") {
+      window.alert(`${title}\n\n${message}`);
+      return;
+    }
+
+    Alert.alert(title, message);
+  };
 
   const handleSignup = async () => {
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      showMessage("Missing fields", "Please complete all fields.");
+      return;
+    }
+
     try {
+      setLoading(true);
       await signup(name.trim(), email.trim(), password);
       router.replace("/home");
     } catch (error: any) {
-      Alert.alert("Signup failed", error?.message || "Could not create account.");
+      showMessage("Signup failed", error?.message || "Could not create account.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <AppShell>
+    <AppShell scroll={false}>
       <BrandHeader />
 
       <View
         style={{
-          backgroundColor: theme.colors.card,
+          backgroundColor: "rgba(17,17,17,0.92)",
           borderWidth: 1,
           borderColor: theme.colors.border,
           borderRadius: 24,
           padding: 20
         }}
       >
-        <Text style={{ color: theme.colors.gold, fontFamily: "CinzelBold", fontSize: 24, textAlign: "center", marginBottom: 18 }}>
+        <Text
+          style={{
+            color: theme.colors.gold,
+            fontFamily: "CinzelBold",
+            fontSize: 24,
+            marginBottom: 14
+          }}
+        >
           Create Account
         </Text>
 
         <TextInput
           placeholder="Full Name"
-          placeholderTextColor="#8a8a8a"
+          placeholderTextColor="#8A8A8A"
           value={name}
           onChangeText={setName}
           style={{
@@ -58,7 +82,7 @@ export default function SignupScreen() {
 
         <TextInput
           placeholder="Email"
-          placeholderTextColor="#8a8a8a"
+          placeholderTextColor="#8A8A8A"
           autoCapitalize="none"
           value={email}
           onChangeText={setEmail}
@@ -74,9 +98,8 @@ export default function SignupScreen() {
 
         <TextInput
           placeholder="Password"
-          placeholderTextColor="#8a8a8a"
+          placeholderTextColor="#8A8A8A"
           secureTextEntry
-          autoCapitalize="none"
           value={password}
           onChangeText={setPassword}
           style={{
@@ -84,24 +107,22 @@ export default function SignupScreen() {
             color: theme.colors.text,
             borderRadius: 16,
             padding: 14,
-            marginBottom: 14,
+            marginBottom: 16,
             fontFamily: "MontserratMedium"
           }}
         />
 
-        <GoldButton title="Create Account" onPress={handleSignup} />
+        <GoldButton
+          title={loading ? "Creating..." : "Create Account"}
+          onPress={handleSignup}
+        />
 
-        <Link
-          href="/login"
-          style={{
-            color: theme.colors.gold,
-            textAlign: "center",
-            marginTop: 14,
-            fontFamily: "MontserratSemiBold"
-          }}
-        >
-          Back to login
-        </Link>
+        <View style={{ height: 12 }} />
+
+        <GoldButton
+          title="Back to Login"
+          onPress={() => router.push("/login")}
+        />
       </View>
     </AppShell>
   );

@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
+import * as Notifications from "expo-notifications";
 import { Cinzel_600SemiBold, Cinzel_700Bold } from "@expo-google-fonts/cinzel";
 import {
   Montserrat_500Medium,
@@ -24,9 +25,15 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
+    const subscription = Notifications.addNotificationResponseReceivedListener(() => {});
+
     if (loaded) {
       SplashScreen.hideAsync();
     }
+
+    return () => {
+      subscription.remove();
+    };
   }, [loaded]);
 
   if (!loaded) return null;

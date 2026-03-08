@@ -1,5 +1,4 @@
 // File: context/AuthContext.tsx
-
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import {
   User,
@@ -12,6 +11,7 @@ import {
 } from "firebase/auth";
 import { doc, deleteDoc } from "firebase/firestore";
 import { auth, db } from "../lib/firebase";
+import { isAdminEmail } from "../constants/admin";
 
 export type AppUser = {
   uid: string;
@@ -30,15 +30,15 @@ type AuthContextType = {
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
-const adminEmails = ["blazeoffirehub@gmail.com"];
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   const normalizeUser = async (firebaseUser: User) => {
-    const role: "admin" | "member" =
-      adminEmails.includes(firebaseUser.email || "") ? "admin" : "member";
+    const role: "admin" | "member" = isAdminEmail(firebaseUser.email)
+      ? "admin"
+      : "member";
 
     setUser({
       uid: firebaseUser.uid,
@@ -106,6 +106,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used inside AuthProvider");
+  if (!context) {
+    throw new Error("useAuth must be used inside AuthProvider");
+  }
   return context;
 }

@@ -1,8 +1,9 @@
 // File: app/index.tsx
-import React, { useEffect } from "react";
+import React from "react";
 import { Redirect } from "expo-router";
 import { ActivityIndicator, View } from "react-native";
 import { useAuth } from "../context/AuthContext";
+import { theme } from "../constants/theme";
 
 export default function IndexScreen() {
   const { user, loading } = useAuth();
@@ -12,12 +13,12 @@ export default function IndexScreen() {
       <View
         style={{
           flex: 1,
-          backgroundColor: "#060606",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
+          backgroundColor: theme.colors.background
         }}
       >
-        <ActivityIndicator size="large" color="#D4AF37" />
+        <ActivityIndicator size="large" color={theme.colors.gold} />
       </View>
     );
   }
