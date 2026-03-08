@@ -3,8 +3,13 @@ import React from "react";
 import { Tabs } from "expo-router";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { theme } from "../../constants/theme";
+import { useAuth } from "../../context/AuthContext";
+import { isAdminEmail } from "../../constants/admin";
 
 export default function TabsLayout() {
+  const { user } = useAuth();
+  const isAdmin = isAdminEmail(user?.email);
+
   return (
     <Tabs
       screenOptions={{
@@ -43,7 +48,11 @@ export default function TabsLayout() {
         options={{
           title: "Live",
           tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons name={focused ? "play-circle" : "play-circle-outline"} size={size} color={color} />
+            <Ionicons
+              name={focused ? "play-circle" : "play-circle-outline"}
+              size={size}
+              color={color}
+            />
           )
         }}
       />
@@ -52,12 +61,8 @@ export default function TabsLayout() {
         name="prayer"
         options={{
           title: "Prayer",
-          tabBarIcon: ({ color, size, focused }) => (
-            <MaterialCommunityIcons
-              name={focused ? "hands-pray" : "hands-pray"}
-              size={size}
-              color={color}
-            />
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="hands-pray" size={size} color={color} />
           )
         }}
       />
@@ -67,7 +72,26 @@ export default function TabsLayout() {
         options={{
           title: "People",
           tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons name={focused ? "people" : "people-outline"} size={size} color={color} />
+            <Ionicons
+              name={focused ? "people" : "people-outline"}
+              size={size}
+              color={color}
+            />
+          )
+        }}
+      />
+
+      <Tabs.Screen
+        name="admin"
+        options={{
+          title: "Admin",
+          href: isAdmin ? "/admin" : null,
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "shield-checkmark" : "shield-checkmark-outline"}
+              size={size}
+              color={color}
+            />
           )
         }}
       />
@@ -77,7 +101,11 @@ export default function TabsLayout() {
         options={{
           title: "Me",
           tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons name={focused ? "person" : "person-outline"} size={size} color={color} />
+            <Ionicons
+              name={focused ? "person" : "person-outline"}
+              size={size}
+              color={color}
+            />
           )
         }}
       />
@@ -87,7 +115,11 @@ export default function TabsLayout() {
         options={{
           title: "Giving",
           tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons name={focused ? "heart" : "heart-outline"} size={size} color={color} />
+            <Ionicons
+              name={focused ? "heart" : "heart-outline"}
+              size={size}
+              color={color}
+            />
           )
         }}
       />

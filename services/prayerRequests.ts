@@ -65,6 +65,12 @@ export async function markPrayerRequestAsPrayed(id: string) {
   });
 }
 
+export async function markPrayerRequestAsPraying(id: string) {
+  await updateDoc(doc(db, "prayer_requests", id), {
+    status: "praying"
+  });
+}
+
 export async function deletePrayerRequest(id: string) {
   await deleteDoc(doc(db, "prayer_requests", id));
 }
