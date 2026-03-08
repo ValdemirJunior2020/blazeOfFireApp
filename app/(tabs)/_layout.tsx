@@ -1,5 +1,4 @@
 // File: app/(tabs)/_layout.tsx
-
 import React from "react";
 import { Text } from "react-native";
 import { Tabs } from "expo-router";
@@ -24,6 +23,9 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
+        sceneStyle: {
+          backgroundColor: "transparent"
+        },
         tabBarStyle: {
           backgroundColor: "#060606",
           borderTopColor: theme.colors.border,
@@ -32,8 +34,7 @@ export default function TabsLayout() {
           paddingBottom: 10
         },
         tabBarLabelStyle: {
-          fontFamily: "MontserratSemiBold",
-          fontSize: 12
+          display: "none"
         },
         tabBarActiveTintColor: theme.colors.gold,
         tabBarInactiveTintColor: "#8A8A8A"
@@ -72,6 +73,13 @@ export default function TabsLayout() {
         options={{
           title: "Profile",
           tabBarIcon: ({ focused }) => <TabIcon label="Me" focused={focused} />
+        }}
+      />
+      <Tabs.Screen
+        name="giving"
+        options={{
+          title: "Giving",
+          tabBarIcon: ({ focused }) => <TabIcon label="Giving" focused={focused} />
         }}
       />
     </Tabs>

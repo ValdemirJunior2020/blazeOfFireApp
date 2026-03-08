@@ -1,7 +1,7 @@
 // File: app/(tabs)/profile.tsx
 
 import React from "react";
-import { Alert, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import AppShell from "../../components/AppShell";
 import BrandHeader from "../../components/BrandHeader";
 import GoldButton from "../../components/GoldButton";
@@ -9,29 +9,7 @@ import { useAuth } from "../../context/AuthContext";
 import { theme } from "../../constants/theme";
 
 export default function ProfileScreen() {
-  const { user, logout, deleteMyAccount } = useAuth();
-
-  const handleDeleteAccount = () => {
-    Alert.alert(
-      "Delete Account",
-      "This will permanently delete your account. This action cannot be undone.",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Delete",
-          style: "destructive",
-          onPress: async () => {
-            try {
-              await deleteMyAccount();
-              Alert.alert("Account Deleted", "Your account has been permanently deleted.");
-            } catch (error: any) {
-              Alert.alert("Delete Failed", error?.message || "Unable to delete account.");
-            }
-          }
-        }
-      ]
-    );
-  };
+  const { user, logout } = useAuth();
 
   return (
     <AppShell>
@@ -39,7 +17,7 @@ export default function ProfileScreen() {
 
       <View
         style={{
-          backgroundColor: theme.colors.card,
+          backgroundColor: "rgba(17,17,17,0.9)",
           borderWidth: 1,
           borderColor: theme.colors.border,
           borderRadius: 24,
@@ -91,32 +69,7 @@ export default function ProfileScreen() {
         </Text>
       </View>
 
-      <View style={{ gap: 12 }}>
-        <GoldButton title="Logout" onPress={logout} />
-
-        <View
-          style={{
-            backgroundColor: "#2A0F0F",
-            borderColor: "#8B1E1E",
-            borderWidth: 1,
-            borderRadius: 18,
-            overflow: "hidden"
-          }}
-        >
-          <Text
-            onPress={handleDeleteAccount}
-            style={{
-              color: "#FFFFFF",
-              textAlign: "center",
-              fontFamily: "MontserratBold",
-              fontSize: 16,
-              paddingVertical: 16
-            }}
-          >
-            Delete My Account
-          </Text>
-        </View>
-      </View>
+      <GoldButton title="Logout" onPress={logout} />
     </AppShell>
   );
 }

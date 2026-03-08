@@ -1,8 +1,6 @@
 // File: app/(tabs)/live.tsx
-
 import React, { useState } from "react";
 import { Platform, Text, View } from "react-native";
-import { WebView } from "react-native-webview";
 import YoutubePlayer from "react-native-youtube-iframe";
 import AppShell from "../../components/AppShell";
 import BrandHeader from "../../components/BrandHeader";
@@ -12,7 +10,7 @@ import { theme } from "../../constants/theme";
 export default function LiveScreen() {
   const [playing, setPlaying] = useState(false);
   const videoId = theme.youtubeVideoId;
-  const embedUrl = `https://www.youtube.com/embed/${videoId}?playsinline=1`;
+  const embedUrl = `https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0`;
 
   return (
     <AppShell>
@@ -20,7 +18,7 @@ export default function LiveScreen() {
 
       <View
         style={{
-          backgroundColor: theme.colors.card,
+          backgroundColor: "rgba(17,17,17,0.9)",
           borderWidth: 1,
           borderColor: theme.colors.border,
           borderRadius: 24,
@@ -50,9 +48,18 @@ export default function LiveScreen() {
           }}
         >
           {Platform.OS === "web" ? (
-            <WebView
-              source={{ uri: embedUrl }}
-              style={{ height: 240, backgroundColor: "#000" }}
+            <iframe
+              src={embedUrl}
+              title="Blaze of Fire Live Service"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              style={{
+                width: "100%",
+                height: "240px",
+                border: "none",
+                display: "block",
+                backgroundColor: "#000"
+              }}
             />
           ) : (
             <YoutubePlayer

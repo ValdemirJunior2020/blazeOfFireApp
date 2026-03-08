@@ -1,3 +1,4 @@
+// File: tsconfig.json
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
@@ -8,14 +9,8 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "nativewind-env.d.ts"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", "nativewind-env.d.ts"]
 }

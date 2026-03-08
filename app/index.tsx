@@ -1,16 +1,26 @@
-// Example usage inside any screen
-// File: app/(tabs)/index.tsx
+// File: app/index.tsx
+import React, { useEffect } from "react";
+import { Redirect } from "expo-router";
+import { ActivityIndicator, View } from "react-native";
+import { useAuth } from "../context/AuthContext";
 
-import React from "react";
-import { Text, View } from "react-native";
-import AppShell from "../components/AppShell";
+export default function IndexScreen() {
+  const { user, loading } = useAuth();
 
-export default function HomeScreen() {
-  return (
-    <AppShell>
-      <View>
-        <Text style={{ color: "#fff", fontSize: 22 }}>Welcome</Text>
+  if (loading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#060606",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <ActivityIndicator size="large" color="#D4AF37" />
       </View>
-    </AppShell>
-  );
+    );
+  }
+
+  return <Redirect href={user ? "/home" : "/login"} />;
 }

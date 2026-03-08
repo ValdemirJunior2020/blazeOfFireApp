@@ -14,7 +14,7 @@ export default function CommunityScreen() {
 
       <View
         style={{
-          backgroundColor: theme.colors.card,
+          backgroundColor: "rgba(17,17,17,0.9)",
           borderWidth: 1,
           borderColor: theme.colors.border,
           borderRadius: 24,
