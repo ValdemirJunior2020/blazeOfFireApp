@@ -1,0 +1,79 @@
+# Node.js / npm / Yarn / pnpm
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.pnpm-debug.log
+package-lock.json    # optional: keep only if you don't want lockfile in git
+yarn.lock             # optional: keep only if you don't want lockfile in git
+pnpm-lock.yaml
+
+# Expo / React Native
+.expo/
+.expo-shared/
+expo-env.d.ts
+.expo-updates/
+eas-build/
+dist/
+build/
+web-build/
+android/app/build/
+android/.gradle/
+android/local.properties
+android/keystores/
+ios/build/
+ios/Pods/
+ios/Podfile.lock
+*.jks
+*.keystore
+*.mobileprovision
+*.orig.*
+crashlytics.properties
+DerivedData/
+*.xcworkspace/xcshareddata/
+*.xcodeproj/xcshareddata/
+*.moved-aside
+
+# Metro / bundler
+.metro-health-check*
+*.watchman*
+.haste-map*
+
+# Logs & temp files
+*.log
+*.logs
+*.log.*
+.DS_Store
+Thumbs.db
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor & OS files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+.fleet/
+.devcontainer/
+
+# Testing / coverage
+coverage/
+.nyc_output/
+cypress/videos/
+cypress/screenshots/
+
+# Expo EAS & build artifacts
+eas.json              # optional – usually committed, but some keep secrets out
+*.aab
+*.apk
+*.ipa
+
+# Optional: local config overrides
+app.config.local.js
+app.json.local

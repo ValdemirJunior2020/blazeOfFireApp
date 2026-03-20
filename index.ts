@@ -1,0 +1,2 @@
+// File: index.ts
+export {};
