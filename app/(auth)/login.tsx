@@ -7,12 +7,11 @@ import BrandHeader from "../../components/BrandHeader";
 import GoldButton from "../../components/GoldButton";
 import { theme } from "../../constants/theme";
 import { useAuth } from "../../context/AuthContext";
-import { ADMIN_EMAIL, ADMIN_PASSWORD } from "../../constants/admin";
 
 export default function LoginScreen() {
   const { login } = useAuth();
-  const [email, setEmail] = useState(ADMIN_EMAIL);
-  const [password, setPassword] = useState(ADMIN_PASSWORD);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const showMessage = (title: string, message: string) => {
@@ -69,6 +68,7 @@ export default function LoginScreen() {
           placeholder="Email"
           placeholderTextColor="#8A8A8A"
           autoCapitalize="none"
+          keyboardType="email-address"
           value={email}
           onChangeText={setEmail}
           style={{

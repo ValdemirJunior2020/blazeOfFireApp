@@ -14,7 +14,7 @@ export default function BrandHeader({ size = "lg" }: Props) {
   const floatAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    Animated.loop(
+    const glowLoop = Animated.loop(
       Animated.sequence([
         Animated.timing(glowAnim, {
           toValue: 1,
@@ -29,31 +29,38 @@ export default function BrandHeader({ size = "lg" }: Props) {
           useNativeDriver: false
         })
       ])
-    ).start();
+    );
 
-    Animated.loop(
+    const floatLoop = Animated.loop(
       Animated.sequence([
         Animated.timing(floatAnim, {
           toValue: -6,
           duration: 2200,
           easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true
+          useNativeDriver: false
         }),
         Animated.timing(floatAnim, {
           toValue: 0,
           duration: 2200,
           easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true
+          useNativeDriver: false
         })
       ])
-    ).start();
+    );
+
+    glowLoop.start();
+    floatLoop.start();
+
+    return () => {
+      glowLoop.stop();
+      floatLoop.stop();
+    };
   }, [glowAnim, floatAnim]);
 
   const animatedGlowStyle = {
-    shadowOpacity: glowAnim,
-    shadowRadius: glowAnim.interpolate({
+    opacity: glowAnim.interpolate({
       inputRange: [0.7, 1],
-      outputRange: [16, 28]
+      outputRange: [0.9, 1]
     }),
     transform: [{ translateY: floatAnim }]
   };
@@ -83,10 +90,7 @@ const styles = StyleSheet.create({
   },
   logoWrap: {
     marginBottom: 10,
-    borderRadius: 999,
-    shadowColor: "#D4AF37",
-    shadowOffset: { width: 0, height: 0 },
-    elevation: 16
+    borderRadius: 999
   },
   logo: {
     opacity: 1

@@ -1,5 +1,4 @@
 // File: app/_layout.tsx
-import "react-native-gesture-handler";
 import React, { useEffect } from "react";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -12,9 +11,7 @@ import {
 } from "@expo-google-fonts/montserrat";
 import { AuthProvider } from "../context/AuthContext";
 
-void SplashScreen.preventAutoHideAsync().catch(() => {
-  // Ignore if the splash screen was already prevented/hidden.
-});
+void SplashScreen.preventAutoHideAsync().catch(() => {});
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
@@ -26,16 +23,8 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
-    if (error) {
-      console.error("Font loading error:", error);
-    }
-  }, [error]);
-
-  useEffect(() => {
     if (loaded || error) {
-      void SplashScreen.hideAsync().catch(() => {
-        // Avoid crashing if hide is called twice.
-      });
+      void SplashScreen.hideAsync().catch(() => {});
     }
   }, [loaded, error]);
 

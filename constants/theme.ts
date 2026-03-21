@@ -1,5 +1,4 @@
 // File: constants/theme.ts
-
 export const theme = {
   colors: {
     background: "#050505",
@@ -11,5 +10,5 @@ export const theme = {
     muted: "#BFAE73",
     border: "rgba(212, 175, 55, 0.25)"
   },
-  youtubeVideoId: "BKn0ZEavM58"
+  youtubeVideoId: "ttqxivAL1Fg"
 };

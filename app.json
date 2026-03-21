@@ -1,9 +1,11 @@
+
 {
   "expo": {
     "name": "BlazeOfFireApp",
     "slug": "BlazeOfFireApp",
     "version": "1.0.0",
     "orientation": "portrait",
+    "scheme": "blazeoffireapp",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {

@@ -17,7 +17,6 @@ type Props = {
 export default function AppShell({ children, scroll = true }: Props) {
   return (
     <View style={styles.root}>
-      {/* FULL SCREEN BACKGROUND */}
       <ImageBackground
         source={require("../assets/images/bg.jpg")}
         resizeMode="cover"
@@ -25,10 +24,8 @@ export default function AppShell({ children, scroll = true }: Props) {
         imageStyle={styles.image}
       />
 
-      {/* LIGHT OVERLAY */}
-      <View pointerEvents="none" style={styles.overlay} />
+      <View style={styles.overlay} />
 
-      {/* CONTENT */}
       <KeyboardAvoidingView
         style={styles.contentLayer}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -56,8 +53,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%"
   },
-
-  /* THIS FORCES FULL SCREEN IMAGE */
   background: {
     position: "absolute",
     top: 0,
@@ -67,36 +62,30 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%"
   },
-
   image: {
     opacity: 0.65
   },
-
   overlay: {
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
+    pointerEvents: "none",
     backgroundColor: "rgba(0,0,0,0.08)"
   },
-
   contentLayer: {
     flex: 1
   },
-
   scrollContent: {
     flexGrow: 1,
     padding: 20,
     paddingBottom: 120
   },
-
   noScrollContent: {
     flex: 1,
     padding: 20
   },
-
-  /* CENTER CONTENT BUT KEEP BACKGROUND FULL */
   content: {
     width: "100%",
     maxWidth: 760,
