@@ -1,5 +1,5 @@
 // File: app/(tabs)/live.tsx
-import React, { useMemo, useState } from "react";
+import React from "react";
 import { Linking, Text, View } from "react-native";
 import { WebView } from "react-native-webview";
 import AppShell from "../../components/AppShell";
@@ -8,20 +8,15 @@ import GoldButton from "../../components/GoldButton";
 import { theme } from "../../constants/theme";
 
 export default function LiveScreen() {
-  const [showFallback, setShowFallback] = useState(false);
+  const vimeoId = theme.vimeoVideoId;
+  const watchUrl = theme.youtubeChannelLiveUrl;
+  const embedUrl = `https://player.vimeo.com/video/${vimeoId}`;
 
-  const videoId = theme.youtubeVideoId;
-  const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
-
-  const embedUrl = useMemo(() => {
-    return `https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0&modestbranding=1&controls=1`;
-  }, [videoId]);
-
-  const openInYoutube = async () => {
+  const openInYoutubeLive = async () => {
     try {
       await Linking.openURL(watchUrl);
     } catch (error) {
-      console.error("Unable to open YouTube:", error);
+      console.error("Unable to open YouTube live:", error);
     }
   };
 
@@ -61,56 +56,18 @@ export default function LiveScreen() {
             height: 240
           }}
         >
-          {showFallback ? (
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                paddingHorizontal: 20
-              }}
-            >
-              <Text
-                style={{
-                  color: theme.colors.text,
-                  fontFamily: "MontserratSemiBold",
-                  fontSize: 17,
-                  textAlign: "center",
-                  marginBottom: 10
-                }}
-              >
-                This live video cannot play inside the app.
-              </Text>
-
-              <Text
-                style={{
-                  color: "#CFCFCF",
-                  fontFamily: "MontserratMedium",
-                  fontSize: 13,
-                  textAlign: "center",
-                  lineHeight: 20
-                }}
-              >
-                This YouTube stream blocks embedded playback. Tap the button
-                below to watch directly on YouTube.
-              </Text>
-            </View>
-          ) : (
-            <WebView
-              source={{ uri: embedUrl }}
-              style={{ flex: 1, backgroundColor: "#000" }}
-              javaScriptEnabled
-              domStorageEnabled
-              allowsInlineMediaPlayback
-              mediaPlaybackRequiresUserAction={false}
-              originWhitelist={["*"]}
-              onError={() => setShowFallback(true)}
-              onHttpError={() => setShowFallback(true)}
-            />
-          )}
+          <WebView
+            source={{ uri: embedUrl }}
+            style={{ flex: 1, backgroundColor: "#000" }}
+            javaScriptEnabled
+            domStorageEnabled
+            allowsInlineMediaPlayback
+            mediaPlaybackRequiresUserAction={false}
+            originWhitelist={["*"]}
+          />
         </View>
 
-        <GoldButton title="Open in YouTube" onPress={openInYoutube} />
+        <GoldButton title="Open on YouTube Live" onPress={openInYoutubeLive} />
       </View>
     </AppShell>
   );

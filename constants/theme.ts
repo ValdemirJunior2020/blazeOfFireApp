@@ -10,5 +10,6 @@ export const theme = {
     muted: "#BFAE73",
     border: "rgba(212, 175, 55, 0.25)"
   },
-  youtubeVideoId: "ttqxivAL1Fg"
+  vimeoVideoId: "1174895255",
+  youtubeChannelLiveUrl: "https://www.youtube.com/live/JRJHtk2rfw0?si=9lTw89-9Pdh57QE2"
 };
