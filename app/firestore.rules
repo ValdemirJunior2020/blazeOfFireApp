@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 // File: app/firestore.rules
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -20,8 +17,7 @@ service cloud.firestore {
 
     match /prayer_requests/{docId} {
       allow create: if signedIn();
-      allow read: if isAdmin();
-      allow update, delete: if isAdmin();
+      allow read, update, delete: if isAdmin();
     }
 
     match /announcements/{docId} {
@@ -39,7 +35,6 @@ service cloud.firestore {
       allow create: if signedIn();
       allow update, delete: if isAdmin();
     }
-<<<<<<< HEAD
 
     match /church_content/{docId} {
       allow read: if true;
@@ -50,7 +45,5 @@ service cloud.firestore {
       allow read: if true;
       allow write: if isAdmin();
     }
-=======
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
   }
 }

@@ -14,11 +14,7 @@ export default function BrandHeader({ size = "lg" }: Props) {
   const floatAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-<<<<<<< HEAD
     const glowLoop = Animated.loop(
-=======
-    Animated.loop(
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
       Animated.sequence([
         Animated.timing(glowAnim, {
           toValue: 1,
@@ -33,32 +29,21 @@ export default function BrandHeader({ size = "lg" }: Props) {
           useNativeDriver: false
         })
       ])
-<<<<<<< HEAD
     );
 
     const floatLoop = Animated.loop(
-=======
-    ).start();
-
-    Animated.loop(
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
       Animated.sequence([
         Animated.timing(floatAnim, {
           toValue: -6,
           duration: 2200,
           easing: Easing.inOut(Easing.ease),
-<<<<<<< HEAD
-          useNativeDriver: false
-=======
           useNativeDriver: true
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
         }),
         Animated.timing(floatAnim, {
           toValue: 0,
           duration: 2200,
           easing: Easing.inOut(Easing.ease),
-<<<<<<< HEAD
-          useNativeDriver: false
+          useNativeDriver: true
         })
       ])
     );
@@ -76,19 +61,11 @@ export default function BrandHeader({ size = "lg" }: Props) {
     opacity: glowAnim.interpolate({
       inputRange: [0.7, 1],
       outputRange: [0.9, 1]
-=======
-          useNativeDriver: true
-        })
-      ])
-    ).start();
-  }, [glowAnim, floatAnim]);
-
-  const animatedGlowStyle = {
+    }),
     shadowOpacity: glowAnim,
     shadowRadius: glowAnim.interpolate({
       inputRange: [0.7, 1],
       outputRange: [16, 28]
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
     }),
     transform: [{ translateY: floatAnim }]
   };
@@ -118,14 +95,10 @@ const styles = StyleSheet.create({
   },
   logoWrap: {
     marginBottom: 10,
-<<<<<<< HEAD
-    borderRadius: 999
-=======
     borderRadius: 999,
     shadowColor: "#D4AF37",
     shadowOffset: { width: 0, height: 0 },
     elevation: 16
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
   },
   logo: {
     opacity: 1
