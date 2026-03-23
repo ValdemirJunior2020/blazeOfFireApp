@@ -1,9 +1,15 @@
+<<<<<<< HEAD
+=======
+// File: services/announcements.ts
+
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
 import {
   addDoc,
   collection,
   getDocs,
   orderBy,
   query,
+<<<<<<< HEAD
   serverTimestamp,
 } from "firebase/firestore";
 import { db } from "../lib/firebase";
@@ -49,3 +55,34 @@ export async function getAnnouncements(): Promise<AnnouncementItem[]> {
     };
   });
 }
+=======
+  serverTimestamp
+} from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { Announcement } from "@/types/announcement";
+
+const announcementsRef = collection(db, "announcements");
+
+export async function createAnnouncement(data: {
+  title: string;
+  message: string;
+  language: "en" | "pt" | "both";
+  createdBy?: string;
+}) {
+  await addDoc(announcementsRef, {
+    ...data,
+    createdAt: new Date().toISOString(),
+    serverCreatedAt: serverTimestamp()
+  });
+}
+
+export async function getAnnouncements(): Promise<Announcement[]> {
+  const q = query(announcementsRef, orderBy("serverCreatedAt", "desc"));
+  const snapshot = await getDocs(q);
+
+  return snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...(doc.data() as Omit<Announcement, "id">)
+  }));
+}
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b

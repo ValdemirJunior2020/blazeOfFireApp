@@ -1,4 +1,8 @@
 // File: constants/theme.ts
+<<<<<<< HEAD
+=======
+
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
 export const theme = {
   colors: {
     background: "#050505",
@@ -10,6 +14,10 @@ export const theme = {
     muted: "#BFAE73",
     border: "rgba(212, 175, 55, 0.25)"
   },
+<<<<<<< HEAD
   vimeoVideoId: "1174895255",
   youtubeChannelLiveUrl: "https://www.youtube.com/live/JRJHtk2rfw0?si=9lTw89-9Pdh57QE2"
+=======
+  youtubeVideoId: "BKn0ZEavM58"
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
 };

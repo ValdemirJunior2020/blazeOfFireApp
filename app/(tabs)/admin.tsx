@@ -10,6 +10,7 @@ import { theme } from "../../constants/theme";
 import { useAuth } from "../../context/AuthContext";
 import { isAdminEmail } from "../../constants/admin";
 
+<<<<<<< HEAD
 function AdminActionCard({
   icon,
   title,
@@ -68,6 +69,8 @@ function AdminActionCard({
   );
 }
 
+=======
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
 export default function AdminTabScreen() {
   const { user } = useAuth();
   const isAdmin = isAdminEmail(user?.email);
@@ -77,13 +80,18 @@ export default function AdminTabScreen() {
   }
 
   if (!isAdmin) {
+<<<<<<< HEAD
     return <Redirect href="/(tabs)/home" />;
+=======
+    return <Redirect href="/home" />;
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
   }
 
   return (
     <AppShell>
       <BrandHeader size="sm" />
 
+<<<<<<< HEAD
       <AdminActionCard
         icon="chatbox-ellipses-outline"
         title="Prayer Requests"
@@ -107,6 +115,57 @@ export default function AdminTabScreen() {
         buttonText="Edit Ministries"
         onPress={() => router.push("/(tabs)/admin-ministries")}
       />
+=======
+      <View
+        style={{
+          backgroundColor: "rgba(17,17,17,0.92)",
+          borderWidth: 1,
+          borderColor: theme.colors.border,
+          borderRadius: 24,
+          padding: 20
+        }}
+      >
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: 16
+          }}
+        >
+          <Ionicons name="shield-checkmark" size={42} color={theme.colors.gold} />
+        </View>
+
+        <Text
+          style={{
+            color: theme.colors.gold,
+            fontFamily: "CinzelBold",
+            fontSize: 24,
+            textAlign: "center",
+            marginBottom: 10
+          }}
+        >
+          Admin Center
+        </Text>
+
+        <Text
+          style={{
+            color: theme.colors.text,
+            fontFamily: "MontserratMedium",
+            fontSize: 15,
+            lineHeight: 24,
+            textAlign: "center",
+            marginBottom: 18
+          }}
+        >
+          Open the pastor dashboard to view and manage saved prayer requests.
+        </Text>
+
+        <GoldButton
+          title="Open Prayer Requests"
+          onPress={() => router.push("/admin/prayer-requests")}
+        />
+      </View>
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
     </AppShell>
   );
 }

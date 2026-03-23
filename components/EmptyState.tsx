@@ -1,14 +1,23 @@
 // File: components/EmptyState.tsx
+<<<<<<< HEAD
 import React from "react";
 import { Text, View } from "react-native";
 
  type Props = {
+=======
+
+import React from "react";
+import { Text, View } from "react-native";
+
+type Props = {
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
   title: string;
   message: string;
 };
 
 export default function EmptyState({ title, message }: Props) {
   return (
+<<<<<<< HEAD
     <View
       style={{
         backgroundColor: "#171717",
@@ -32,3 +41,11 @@ export default function EmptyState({ title, message }: Props) {
     </View>
   );
 }
+=======
+    <View className="bg-bofCharcoal rounded-3xl p-5 border border-[#2a2a2a]">
+      <Text className="text-bofGold text-lg font-bold mb-2">{title}</Text>
+      <Text className="text-white leading-6">{message}</Text>
+    </View>
+  );
+}
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b

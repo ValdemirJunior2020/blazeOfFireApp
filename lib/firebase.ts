@@ -1,4 +1,8 @@
 // File: lib/firebase.ts
+<<<<<<< HEAD
+=======
+
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
 import { FirebaseApp, getApp, getApps, initializeApp } from "firebase/app";
 import { Auth, getAuth } from "firebase/auth";
 import { Firestore, getFirestore } from "firebase/firestore";

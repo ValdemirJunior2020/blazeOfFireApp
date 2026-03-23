@@ -1,13 +1,20 @@
 // File: app/(tabs)/home.tsx
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+=======
+import React from "react";
+import { Text, View } from "react-native";
+import { router } from "expo-router";
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
 import AppShell from "../../components/AppShell";
 import BrandHeader from "../../components/BrandHeader";
 import GoldButton from "../../components/GoldButton";
 import { theme } from "../../constants/theme";
 import { getVerseOfTheDay } from "../../data/verses";
+<<<<<<< HEAD
 import { useAuth } from "../../context/AuthContext";
 import { isAdminEmail } from "../../constants/admin";
 import { defaultHomeContent, getHomeContent } from "../../services/churchContent";
@@ -74,6 +81,11 @@ export default function HomeScreen() {
   }, []);
 
   const canEditHome = isAdminEmail(user?.email);
+=======
+
+export default function HomeScreen() {
+  const verse = getVerseOfTheDay();
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
 
   return (
     <AppShell>
@@ -93,6 +105,7 @@ export default function HomeScreen() {
           style={{
             color: theme.colors.gold,
             fontFamily: "CinzelBold",
+<<<<<<< HEAD
             fontSize: 24,
             marginBottom: 10,
             textAlign: "center"
@@ -140,6 +153,8 @@ export default function HomeScreen() {
           style={{
             color: theme.colors.gold,
             fontFamily: "CinzelBold",
+=======
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
             fontSize: 22,
             marginBottom: 12
           }}
@@ -170,6 +185,7 @@ export default function HomeScreen() {
         </Text>
       </View>
 
+<<<<<<< HEAD
       {canEditHome ? (
         <>
           <GoldButton title="Edit Home Content" onPress={() => router.push("/admin/home-content")} />
@@ -179,6 +195,8 @@ export default function HomeScreen() {
 
       <GoldButton title="See Ministries" onPress={() => router.push("/ministries")} />
       <View style={{ height: 14 }} />
+=======
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
       <GoldButton title="Watch Live Inside the App" onPress={() => router.push("/live")} />
       <View style={{ height: 14 }} />
       <GoldButton title="Send Prayer Request" onPress={() => router.push("/prayer")} />
@@ -188,4 +206,8 @@ export default function HomeScreen() {
       <GoldButton title="Open Profile" onPress={() => router.push("/profile")} />
     </AppShell>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b

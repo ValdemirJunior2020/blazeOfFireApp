@@ -158,7 +158,11 @@ export default function ProfileScreen() {
 
         {isAdminEmail(user.email) ? (
           <Pressable
+<<<<<<< HEAD
             onPress={() => router.push("/(tabs)/admin-prayer-requests")}
+=======
+            onPress={() => router.push("/admin/prayer-requests")}
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
             style={{
               flexDirection: "row",
               alignItems: "center",

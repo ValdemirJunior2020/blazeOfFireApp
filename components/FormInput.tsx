@@ -1,8 +1,16 @@
 // File: components/FormInput.tsx
+<<<<<<< HEAD
 import React from "react";
 import { Text, TextInput, View } from "react-native";
 
  type Props = {
+=======
+
+import React from "react";
+import { Text, TextInput, View } from "react-native";
+
+type Props = {
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
   label: string;
   value: string;
   onChangeText: (value: string) => void;
@@ -20,6 +28,7 @@ export default function FormInput({
   autoCapitalize = "none"
 }: Props) {
   return (
+<<<<<<< HEAD
     <View style={{ marginBottom: 16 }}>
       {label ? (
         <Text
@@ -41,6 +50,12 @@ export default function FormInput({
           paddingHorizontal: 16,
           paddingVertical: 16
         }}
+=======
+    <View className="mb-4">
+      {label ? <Text className="text-bofGold font-semibold mb-2">{label}</Text> : null}
+      <TextInput
+        className="bg-bofCharcoal text-white rounded-2xl px-4 py-4"
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
         placeholder={placeholder}
         placeholderTextColor="#8a8a8a"
         value={value}
@@ -50,4 +65,8 @@ export default function FormInput({
       />
     </View>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
