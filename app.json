@@ -1,17 +1,10 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
 {
   "expo": {
     "name": "BlazeOfFireApp",
     "slug": "BlazeOfFireApp",
     "version": "1.0.0",
     "orientation": "portrait",
-<<<<<<< HEAD
     "scheme": "blazeoffireapp",
-=======
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
@@ -20,15 +13,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-<<<<<<< HEAD
       "supportsTablet": true,
       "bundleIdentifier": "com.infojr.83.BlazeOfFireApp",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
-=======
-      "supportsTablet": true
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
     },
     "android": {
       "adaptiveIcon": {
@@ -45,7 +34,6 @@
     "plugins": [
       "expo-router",
       "expo-font"
-<<<<<<< HEAD
     ],
     "extra": {
       "router": {},
@@ -55,8 +43,3 @@
     }
   }
 }
-=======
-    ]
-  }
-}
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b

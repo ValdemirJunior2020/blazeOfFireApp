@@ -1,26 +1,27 @@
 // File: app/(tabs)/home.tsx
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-=======
-import React from "react";
-import { Text, View } from "react-native";
-import { router } from "expo-router";
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
 import AppShell from "../../components/AppShell";
 import BrandHeader from "../../components/BrandHeader";
 import GoldButton from "../../components/GoldButton";
 import { theme } from "../../constants/theme";
 import { getVerseOfTheDay } from "../../data/verses";
-<<<<<<< HEAD
 import { useAuth } from "../../context/AuthContext";
 import { isAdminEmail } from "../../constants/admin";
 import { defaultHomeContent, getHomeContent } from "../../services/churchContent";
 import { HomeContent } from "../../types/churchContent";
 
-function HomeInfoCard({ icon, title, body }: { icon: keyof typeof Ionicons.glyphMap; title: string; body: string }) {
+function HomeInfoCard({
+  icon,
+  title,
+  body
+}: {
+  icon: keyof typeof Ionicons.glyphMap;
+  title: string;
+  body: string;
+}) {
   return (
     <View
       style={{
@@ -72,6 +73,8 @@ export default function HomeScreen() {
       try {
         const data = await getHomeContent();
         setContent(data);
+      } catch (error) {
+        console.error("Failed to load home content:", error);
       } finally {
         setLoading(false);
       }
@@ -81,11 +84,6 @@ export default function HomeScreen() {
   }, []);
 
   const canEditHome = isAdminEmail(user?.email);
-=======
-
-export default function HomeScreen() {
-  const verse = getVerseOfTheDay();
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
 
   return (
     <AppShell>
@@ -105,7 +103,6 @@ export default function HomeScreen() {
           style={{
             color: theme.colors.gold,
             fontFamily: "CinzelBold",
-<<<<<<< HEAD
             fontSize: 24,
             marginBottom: 10,
             textAlign: "center"
@@ -123,7 +120,7 @@ export default function HomeScreen() {
             textAlign: "center"
           }}
         >
-          Stay connected with this week's word, church schedule, announcements, and ministry opportunities.
+          Stay connected with this week&apos;s word, church schedule, announcements, and ministry opportunities.
         </Text>
       </View>
 
@@ -131,11 +128,31 @@ export default function HomeScreen() {
         <ActivityIndicator size="large" color={theme.colors.gold} />
       ) : (
         <>
-          <HomeInfoCard icon="megaphone-outline" title="This Week's Message" body={content.weeklyMessage} />
-          <HomeInfoCard icon="time-outline" title="Service Schedule" body={content.serviceSchedule} />
-          <HomeInfoCard icon="calendar-outline" title="Next Event" body={content.nextEvent} />
-          <HomeInfoCard icon="notifications-outline" title="Latest Announcement" body={content.latestAnnouncement} />
-          <HomeInfoCard icon="chatbubble-ellipses-outline" title="Pastor's Short Note" body={content.pastorsNote} />
+          <HomeInfoCard
+            icon="megaphone-outline"
+            title="This Week's Message"
+            body={content.weeklyMessage}
+          />
+          <HomeInfoCard
+            icon="time-outline"
+            title="Service Schedule"
+            body={content.serviceSchedule}
+          />
+          <HomeInfoCard
+            icon="calendar-outline"
+            title="Next Event"
+            body={content.nextEvent}
+          />
+          <HomeInfoCard
+            icon="notifications-outline"
+            title="Latest Announcement"
+            body={content.latestAnnouncement}
+          />
+          <HomeInfoCard
+            icon="chatbubble-ellipses-outline"
+            title="Pastor's Short Note"
+            body={content.pastorShortNote}
+          />
         </>
       )}
 
@@ -153,8 +170,6 @@ export default function HomeScreen() {
           style={{
             color: theme.colors.gold,
             fontFamily: "CinzelBold",
-=======
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
             fontSize: 22,
             marginBottom: 12
           }}
@@ -185,18 +200,18 @@ export default function HomeScreen() {
         </Text>
       </View>
 
-<<<<<<< HEAD
       {canEditHome ? (
         <>
-          <GoldButton title="Edit Home Content" onPress={() => router.push("/admin/home-content")} />
+          <GoldButton
+            title="Edit Home Content"
+            onPress={() => router.push("/(tabs)/admin-home-content")}
+          />
           <View style={{ height: 14 }} />
         </>
       ) : null}
 
       <GoldButton title="See Ministries" onPress={() => router.push("/ministries")} />
       <View style={{ height: 14 }} />
-=======
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
       <GoldButton title="Watch Live Inside the App" onPress={() => router.push("/live")} />
       <View style={{ height: 14 }} />
       <GoldButton title="Send Prayer Request" onPress={() => router.push("/prayer")} />
@@ -206,8 +221,4 @@ export default function HomeScreen() {
       <GoldButton title="Open Profile" onPress={() => router.push("/profile")} />
     </AppShell>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b

@@ -1,93 +1,78 @@
 // File: app/(tabs)/giving.tsx
-
 import React from "react";
-import { Alert, Pressable, Text, View } from "react-native";
-import * as Clipboard from "expo-clipboard";
-import Screen from "../../components/Screen";
-import SectionTitle from "../../components/SectionTitle";
-import { LINKS } from "../../constants/links";
+import { Alert, Linking, Text, View } from "react-native";
+import AppShell from "../../components/AppShell";
+import BrandHeader from "../../components/BrandHeader";
+import GoldButton from "../../components/GoldButton";
+import { theme } from "../../constants/theme";
+
+const PAYPAL_URL = "https://www.paypal.com/paypalme/blazeoffire";
 
 export default function GivingScreen() {
-  const copyZelle = async () => {
-    await Clipboard.setStringAsync(LINKS.donationEmail);
-    Alert.alert("Copied", "Zelle email copied.");
+  const openPayPal = async () => {
+    try {
+      const supported = await Linking.canOpenURL(PAYPAL_URL);
+
+      if (!supported) {
+        Alert.alert("Error", "Unable to open PayPal link.");
+        return;
+      }
+
+      await Linking.openURL(PAYPAL_URL);
+    } catch (error) {
+      Alert.alert("Error", "Something went wrong opening the donation link.");
+    }
   };
 
   return (
-    <Screen>
-      <SectionTitle title="Giving" />
+    <AppShell>
+      <BrandHeader size="sm" />
 
       <View
         style={{
-          backgroundColor: "#171717",
-          borderRadius: 24,
-          padding: 20,
-          marginBottom: 16
-        }}
-      >
-        <Text
-          style={{
-            color: "#FFFFFF",
-            lineHeight: 24,
-            fontSize: 15
-          }}
-        >
-          This app is free forever. Your giving supports the ministry, events,
-          outreach, and the work God is doing through Blaze of Fire.
-        </Text>
-      </View>
-
-      <View
-        style={{
-          backgroundColor: "#171717",
-          borderRadius: 24,
-          padding: 20,
-          marginBottom: 16,
+          backgroundColor: "rgba(17,17,17,0.92)",
           borderWidth: 1,
-          borderColor: "#D4AF37"
+          borderColor: theme.colors.border,
+          borderRadius: 24,
+          padding: 20,
         }}
       >
         <Text
           style={{
-            color: "#D4AF37",
-            fontSize: 18,
-            fontWeight: "700",
-            marginBottom: 8
+            color: theme.colors.gold,
+            fontFamily: "CinzelBold",
+            fontSize: 24,
+            marginBottom: 10,
           }}
         >
-          Zelle
+          Give / Donate
         </Text>
 
         <Text
           style={{
-            color: "#FFFFFF",
-            fontSize: 16
+            color: theme.colors.text,
+            fontFamily: "MontserratMedium",
+            fontSize: 15,
+            lineHeight: 24,
+            marginBottom: 18,
           }}
         >
-          {LINKS.donationEmail}
+          Support Blaze of Fire Revival Global Center through PayPal.
+        </Text>
+
+        <GoldButton title="Donate with PayPal" onPress={openPayPal} />
+
+        <Text
+          style={{
+            color: "#CFCFCF",
+            fontFamily: "MontserratMedium",
+            fontSize: 12,
+            marginTop: 14,
+          }}
+        >
+          PayPal: {PAYPAL_URL}
         </Text>
       </View>
-
-      <Pressable
-        onPress={copyZelle}
-        style={{
-          backgroundColor: "#D4AF37",
-          borderRadius: 18,
-          paddingVertical: 16,
-          paddingHorizontal: 16
-        }}
-      >
-        <Text
-          style={{
-            color: "#000000",
-            textAlign: "center",
-            fontWeight: "700",
-            fontSize: 16
-          }}
-        >
-          Copy Zelle Email
-        </Text>
-      </Pressable>
-    </Screen>
+    </AppShell>
   );
 }

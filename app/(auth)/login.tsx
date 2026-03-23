@@ -7,20 +7,11 @@ import BrandHeader from "../../components/BrandHeader";
 import GoldButton from "../../components/GoldButton";
 import { theme } from "../../constants/theme";
 import { useAuth } from "../../context/AuthContext";
-<<<<<<< HEAD
 
 export default function LoginScreen() {
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-=======
-import { ADMIN_EMAIL, ADMIN_PASSWORD } from "../../constants/admin";
-
-export default function LoginScreen() {
-  const { login } = useAuth();
-  const [email, setEmail] = useState(ADMIN_EMAIL);
-  const [password, setPassword] = useState(ADMIN_PASSWORD);
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
   const [loading, setLoading] = useState(false);
 
   const showMessage = (title: string, message: string) => {
@@ -77,10 +68,7 @@ export default function LoginScreen() {
           placeholder="Email"
           placeholderTextColor="#8A8A8A"
           autoCapitalize="none"
-<<<<<<< HEAD
           keyboardType="email-address"
-=======
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
           value={email}
           onChangeText={setEmail}
           style={{

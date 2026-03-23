@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-{
-  "compilerOptions": {},
-  "extends": "expo/tsconfig.base"
-}
-=======
-// File: tsconfig.json
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
@@ -20,4 +13,3 @@
   },
   "include": ["**/*.ts", "**/*.tsx", "nativewind-env.d.ts"]
 }
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
