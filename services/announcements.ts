@@ -1,37 +1,51 @@
-// File: services/announcements.ts
-
 import {
   addDoc,
   collection,
   getDocs,
   orderBy,
   query,
-  serverTimestamp
+  serverTimestamp,
 } from "firebase/firestore";
-import { db } from "@/lib/firebase";
-import { Announcement } from "@/types/announcement";
+import { db } from "../lib/firebase";
 
-const announcementsRef = collection(db, "announcements");
-
-export async function createAnnouncement(data: {
+export type AnnouncementItem = {
+  id: string;
   title: string;
   message: string;
-  language: "en" | "pt" | "both";
-  createdBy?: string;
-}) {
-  await addDoc(announcementsRef, {
-    ...data,
+  createdAt?: string;
+};
+
+type CreateAnnouncementInput = {
+  title: string;
+  message: string;
+};
+
+export async function createAnnouncement(input: CreateAnnouncementInput) {
+  await addDoc(collection(db, "announcements"), {
+    title: input.title || "",
+    message: input.message || "",
     createdAt: new Date().toISOString(),
-    serverCreatedAt: serverTimestamp()
+    serverCreatedAt: serverTimestamp(),
   });
 }
 
-export async function getAnnouncements(): Promise<Announcement[]> {
-  const q = query(announcementsRef, orderBy("serverCreatedAt", "desc"));
-  const snapshot = await getDocs(q);
+export async function getAnnouncements(): Promise<AnnouncementItem[]> {
+  const q = query(collection(db, "announcements"), orderBy("serverCreatedAt", "desc"));
+  const snap = await getDocs(q);
 
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...(doc.data() as Omit<Announcement, "id">)
-  }));
+  return snap.docs.map((item) => {
+    const data = item.data() as any;
+
+    return {
+      id: item.id,
+      title: data.title || "",
+      message: data.message || "",
+      createdAt:
+        typeof data.createdAt === "string"
+          ? data.createdAt
+          : typeof data.serverCreatedAt?.toDate === "function"
+          ? data.serverCreatedAt.toDate().toISOString()
+          : new Date().toISOString(),
+    };
+  });
 }

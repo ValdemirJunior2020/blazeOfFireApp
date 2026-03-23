@@ -10,6 +10,64 @@ import { theme } from "../../constants/theme";
 import { useAuth } from "../../context/AuthContext";
 import { isAdminEmail } from "../../constants/admin";
 
+function AdminActionCard({
+  icon,
+  title,
+  description,
+  buttonText,
+  onPress,
+}: {
+  icon: keyof typeof Ionicons.glyphMap;
+  title: string;
+  description: string;
+  buttonText: string;
+  onPress: () => void;
+}) {
+  return (
+    <View
+      style={{
+        backgroundColor: "rgba(17,17,17,0.92)",
+        borderWidth: 1,
+        borderColor: theme.colors.border,
+        borderRadius: 24,
+        padding: 20,
+        marginBottom: 16,
+      }}
+    >
+      <View style={{ alignItems: "center", marginBottom: 12 }}>
+        <Ionicons name={icon} size={38} color={theme.colors.gold} />
+      </View>
+
+      <Text
+        style={{
+          color: theme.colors.gold,
+          fontFamily: "CinzelBold",
+          fontSize: 22,
+          textAlign: "center",
+          marginBottom: 8,
+        }}
+      >
+        {title}
+      </Text>
+
+      <Text
+        style={{
+          color: theme.colors.text,
+          fontFamily: "MontserratMedium",
+          fontSize: 14,
+          lineHeight: 22,
+          textAlign: "center",
+          marginBottom: 16,
+        }}
+      >
+        {description}
+      </Text>
+
+      <GoldButton title={buttonText} onPress={onPress} />
+    </View>
+  );
+}
+
 export default function AdminTabScreen() {
   const { user } = useAuth();
   const isAdmin = isAdminEmail(user?.email);
@@ -19,62 +77,36 @@ export default function AdminTabScreen() {
   }
 
   if (!isAdmin) {
-    return <Redirect href="/home" />;
+    return <Redirect href="/(tabs)/home" />;
   }
 
   return (
     <AppShell>
       <BrandHeader size="sm" />
 
-      <View
-        style={{
-          backgroundColor: "rgba(17,17,17,0.92)",
-          borderWidth: 1,
-          borderColor: theme.colors.border,
-          borderRadius: 24,
-          padding: 20
-        }}
-      >
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-            marginBottom: 16
-          }}
-        >
-          <Ionicons name="shield-checkmark" size={42} color={theme.colors.gold} />
-        </View>
+      <AdminActionCard
+        icon="chatbox-ellipses-outline"
+        title="Prayer Requests"
+        description="Review and manage prayer requests from the congregation."
+        buttonText="Open Prayer Requests"
+        onPress={() => router.push("/(tabs)/admin-prayer-requests")}
+      />
 
-        <Text
-          style={{
-            color: theme.colors.gold,
-            fontFamily: "CinzelBold",
-            fontSize: 24,
-            textAlign: "center",
-            marginBottom: 10
-          }}
-        >
-          Admin Center
-        </Text>
+      <AdminActionCard
+        icon="home-outline"
+        title="Manage Home Page"
+        description="Update this week’s message, schedule, next event, announcements, and pastor note."
+        buttonText="Edit Home Page"
+        onPress={() => router.push("/(tabs)/admin-home-content")}
+      />
 
-        <Text
-          style={{
-            color: theme.colors.text,
-            fontFamily: "MontserratMedium",
-            fontSize: 15,
-            lineHeight: 24,
-            textAlign: "center",
-            marginBottom: 18
-          }}
-        >
-          Open the pastor dashboard to view and manage saved prayer requests.
-        </Text>
-
-        <GoldButton
-          title="Open Prayer Requests"
-          onPress={() => router.push("/admin/prayer-requests")}
-        />
-      </View>
+      <AdminActionCard
+        icon="people-outline"
+        title="Manage Ministries"
+        description="Add and update ministry cards for the church."
+        buttonText="Edit Ministries"
+        onPress={() => router.push("/(tabs)/admin-ministries")}
+      />
     </AppShell>
   );
 }

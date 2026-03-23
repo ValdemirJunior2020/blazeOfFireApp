@@ -1,16 +1,4 @@
-// File: tsconfig.json
 {
-  "extends": "expo/tsconfig.base.json",
-  "compilerOptions": {
-    "strict": true,
-    "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "jsx": "react-jsx",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./*"]
-    }
-  },
-  "include": ["**/*.ts", "**/*.tsx", "nativewind-env.d.ts"]
+  "compilerOptions": {},
+  "extends": "expo/tsconfig.base"
 }
