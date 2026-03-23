@@ -1,44 +1,16 @@
-<<<<<<< HEAD
-# Node.js / npm / pnpm / yarn
-=======
 # Node.js / npm / Yarn / pnpm
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
 node_modules/
 npm-debug.log
+npm-debug.log*
 yarn-debug.log
+yarn-debug.log*
 yarn-error.log
 .pnpm-debug.log
-<<<<<<< HEAD
 .pnpm-store/
-.yarn/*
-!.yarn/patches/
-!.yarn/plugins/
-!.yarn/releases/
-!.yarn/sdks/
-!.yarn/versions/
-.yarn/install-state.gz
 
-# Build outputs & transpiled code
-dist/
-build/
-out/
-coverage/
-*.tsbuildinfo
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-lerna-debug.log*
-
-# Environment variables & secrets
-.env
-.env.local
-.env.*.local
-=======
-package-lock.json    # optional: keep only if you don't want lockfile in git
-yarn.lock             # optional: keep only if you don't want lockfile in git
+# Lockfiles
+package-lock.json
+yarn.lock
 pnpm-lock.yaml
 
 # Expo / React Native
@@ -57,15 +29,7 @@ android/keystores/
 ios/build/
 ios/Pods/
 ios/Podfile.lock
-*.jks
-*.keystore
-*.mobileprovision
-*.orig.*
-crashlytics.properties
 DerivedData/
-*.xcworkspace/xcshareddata/
-*.xcodeproj/xcshareddata/
-*.moved-aside
 
 # Metro / bundler
 .metro-health-check*
@@ -73,35 +37,45 @@ DerivedData/
 .haste-map*
 
 # Logs & temp files
+logs/
 *.log
 *.logs
 *.log.*
 .DS_Store
 Thumbs.db
+
+# Environment variables & secrets
 .env
 .env.local
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
 .env.development.local
 .env.test.local
 .env.production.local
+.env.*.local
 
 # Editor & OS files
-<<<<<<< HEAD
-.DS_Store
-Thumbs.db
-*.swp
-*~
 .vscode/
 .idea/
+*.sublime-project
+*.sublime-workspace
 *.sublime-*
 *.code-workspace
+*.swp
+*.swo
+*~
+.fleet/
+.devcontainer/
 
-# Testing artifacts
+# Testing / coverage
+coverage/
 .nyc_output/
 playwright-report/
 test-results/
 cypress/videos/
 cypress/screenshots/
+
+# Build outputs & transpiled code
+out/
+*.tsbuildinfo
 
 # Dependency directories (alternative names)
 jspm_packages/
@@ -114,13 +88,6 @@ bower_components/
 # Local development overrides
 *.local.*
 
-# Optional: lockfiles you might want to keep or ignore
-# (uncomment the one you DON'T want to commit)
-# package-lock.json      ← keep if using npm
-# yarn.lock              ← keep if using Yarn
-# pnpm-lock.yaml         ← keep if using pnpm
-# shrinkwrap.yaml
-
 # Optional large / generated files
 *.min.js
 *.min.css
@@ -128,33 +95,25 @@ bower_components/
 *.tgz
 *.zip
 
-# Bun (if you use it)
+# Bun
 .bun/
 bun.lockb
-=======
-.vscode/
-.idea/
-*.sublime-project
-*.sublime-workspace
-*.swp
-*.swo
-*~
-.fleet/
-.devcontainer/
 
-# Testing / coverage
-coverage/
-.nyc_output/
-cypress/videos/
-cypress/screenshots/
+# App signing / native artifacts
+*.jks
+*.keystore
+*.mobileprovision
+*.orig.*
+crashlytics.properties
+*.xcworkspace/xcshareddata/
+*.xcodeproj/xcshareddata/
+*.moved-aside
 
-# Expo EAS & build artifacts
-eas.json              # optional – usually committed, but some keep secrets out
+# Optional local app config
+app.config.local.js
+app.json.local
+
+# Optional build artifacts
 *.aab
 *.apk
 *.ipa
-
-# Optional: local config overrides
-app.config.local.js
-app.json.local
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
