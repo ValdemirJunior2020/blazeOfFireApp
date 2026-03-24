@@ -1,31 +1,4 @@
-<<<<<<< HEAD
-import {
-  addDoc,
-  collection,
-  serverTimestamp,
-} from "firebase/firestore";
-import { db } from "../lib/firebase";
-
-type CreateDevotionalInput = {
-  title: string;
-  verse: string;
-  message: string;
-  author?: string;
-};
-
-export async function createDevotional(input: CreateDevotionalInput) {
-  await addDoc(collection(db, "devotionals"), {
-    title: input.title || "",
-    verse: input.verse || "",
-    message: input.message || "",
-    author: input.author || "",
-    createdAt: new Date().toISOString(),
-    serverCreatedAt: serverTimestamp(),
-  });
-}
-=======
 // File: services/devotionals.ts
-
 import {
   addDoc,
   collection,
@@ -67,4 +40,3 @@ export async function getLatestDevotional(): Promise<Devotional | null> {
     ...(first.data() as Omit<Devotional, "id">)
   };
 }
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b

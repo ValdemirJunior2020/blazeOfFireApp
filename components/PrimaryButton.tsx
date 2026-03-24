@@ -1,16 +1,8 @@
 // File: components/PrimaryButton.tsx
-<<<<<<< HEAD
-import React from "react";
-import { Pressable, Text } from "react-native";
-
- type Props = {
-=======
-
 import React from "react";
 import { Pressable, Text } from "react-native";
 
 type Props = {
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
   title: string;
   onPress: () => void;
   variant?: "gold" | "dark";
@@ -23,19 +15,13 @@ export default function PrimaryButton({
   variant = "gold",
   disabled = false
 }: Props) {
-<<<<<<< HEAD
   const backgroundColor = variant === "gold" ? "#D4AF37" : "#171717";
   const textColor = variant === "gold" ? "#000000" : "#FFFFFF";
-=======
-  const bg = variant === "gold" ? "bg-bofGold" : "bg-bofCharcoal";
-  const textColor = variant === "gold" ? "text-black" : "text-white";
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
 
   return (
     <Pressable
       onPress={onPress}
       disabled={disabled}
-<<<<<<< HEAD
       style={{
         backgroundColor,
         borderRadius: 16,
@@ -60,11 +46,3 @@ export default function PrimaryButton({
     </Pressable>
   );
 }
-=======
-      className={`${bg} rounded-2xl py-4 px-4 mb-3 border border-[#2a2a2a] ${disabled ? "opacity-50" : ""}`}
-    >
-      <Text className={`${textColor} text-center font-bold text-base`}>{title}</Text>
-    </Pressable>
-  );
-}
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b

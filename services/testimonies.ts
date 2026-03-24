@@ -1,34 +1,4 @@
-<<<<<<< HEAD
-﻿import {
-  addDoc,
-  collection,
-  serverTimestamp,
-} from "firebase/firestore";
-import { db } from "../lib/firebase";
-
-type SubmitTestimonyInput = {
-  name: string;
-  title: string;
-  message: string;
-  email?: string;
-  userId?: string;
-};
-
-export async function submitTestimony(input: SubmitTestimonyInput) {
-  await addDoc(collection(db, "testimonies"), {
-    name: input.name || "",
-    title: input.title || "",
-    message: input.message || "",
-    email: input.email || "",
-    userId: input.userId || "",
-    status: "pending",
-    createdAt: new Date().toISOString(),
-    serverCreatedAt: serverTimestamp(),
-  });
-}
-=======
 // File: services/testimonies.ts
-
 import {
   addDoc,
   collection,
@@ -71,4 +41,3 @@ export async function getApprovedTestimonies(): Promise<Testimony[]> {
     ...(item.data() as Omit<Testimony, "id">)
   }));
 }
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b

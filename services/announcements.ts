@@ -1,16 +1,11 @@
-<<<<<<< HEAD
-=======
 // File: services/announcements.ts
-
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
 import {
   addDoc,
   collection,
   getDocs,
   orderBy,
   query,
-<<<<<<< HEAD
-  serverTimestamp,
+  serverTimestamp
 } from "firebase/firestore";
 import { db } from "../lib/firebase";
 
@@ -18,71 +13,52 @@ export type AnnouncementItem = {
   id: string;
   title: string;
   message: string;
+  language?: "en" | "pt" | "both";
+  createdBy?: string;
   createdAt?: string;
 };
 
 type CreateAnnouncementInput = {
   title: string;
   message: string;
+  language?: "en" | "pt" | "both";
+  createdBy?: string;
 };
-
-export async function createAnnouncement(input: CreateAnnouncementInput) {
-  await addDoc(collection(db, "announcements"), {
-    title: input.title || "",
-    message: input.message || "",
-    createdAt: new Date().toISOString(),
-    serverCreatedAt: serverTimestamp(),
-  });
-}
-
-export async function getAnnouncements(): Promise<AnnouncementItem[]> {
-  const q = query(collection(db, "announcements"), orderBy("serverCreatedAt", "desc"));
-  const snap = await getDocs(q);
-
-  return snap.docs.map((item) => {
-    const data = item.data() as any;
-
-    return {
-      id: item.id,
-      title: data.title || "",
-      message: data.message || "",
-      createdAt:
-        typeof data.createdAt === "string"
-          ? data.createdAt
-          : typeof data.serverCreatedAt?.toDate === "function"
-          ? data.serverCreatedAt.toDate().toISOString()
-          : new Date().toISOString(),
-    };
-  });
-}
-=======
-  serverTimestamp
-} from "firebase/firestore";
-import { db } from "@/lib/firebase";
-import { Announcement } from "@/types/announcement";
 
 const announcementsRef = collection(db, "announcements");
 
-export async function createAnnouncement(data: {
-  title: string;
-  message: string;
-  language: "en" | "pt" | "both";
-  createdBy?: string;
-}) {
+export async function createAnnouncement(input: CreateAnnouncementInput) {
   await addDoc(announcementsRef, {
-    ...data,
+    title: input.title || "",
+    message: input.message || "",
+    language: input.language || "en",
+    createdBy: input.createdBy || "",
     createdAt: new Date().toISOString(),
     serverCreatedAt: serverTimestamp()
   });
 }
 
-export async function getAnnouncements(): Promise<Announcement[]> {
+export async function getAnnouncements(): Promise<AnnouncementItem[]> {
   const q = query(announcementsRef, orderBy("serverCreatedAt", "desc"));
   const snapshot = await getDocs(q);
 
-  return snapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...(doc.data() as Omit<Announcement, "id">)
-  }));
+  return snapshot.docs.map((item) => {
+    const data = item.data() as Omit<AnnouncementItem, "id"> & {
+      serverCreatedAt?: { toDate?: () => Date };
+    };
+
+    return {
+      id: item.id,
+      title: data.title || "",
+      message: data.message || "",
+      language: data.language || "en",
+      createdBy: data.createdBy || "",
+      createdAt:
+        typeof data.createdAt === "string"
+          ? data.createdAt
+          : typeof data.serverCreatedAt?.toDate === "function"
+            ? data.serverCreatedAt.toDate().toISOString()
+            : new Date().toISOString()
+    };
+  });
 }
->>>>>>> 78d4e7092de9e2bce0e449aaf6871982fb15925b
