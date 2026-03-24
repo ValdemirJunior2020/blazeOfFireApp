@@ -1,4 +1,4 @@
-// File: app/(tabs)/_layout.tsx
+// FILE: app/(tabs)/_layout.tsx
 import React from "react";
 import { Tabs } from "expo-router";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -7,7 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 import { isAdminEmail } from "../../constants/admin";
 
 export default function TabsLayout() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const isAdmin = isAdminEmail(user?.email);
 
   return (
@@ -85,7 +85,7 @@ export default function TabsLayout() {
         name="admin"
         options={{
           title: "Admin",
-          href: isAdmin ? "/(tabs)/admin" : null,
+          href: !loading && isAdmin ? "/(tabs)/admin" : null,
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
               name={focused ? "shield-checkmark" : "shield-checkmark-outline"}

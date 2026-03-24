@@ -1,4 +1,4 @@
-// File: app/(tabs)/admin.tsx
+// FILE: app/(tabs)/admin.tsx
 import React from "react";
 import { Redirect, router } from "expo-router";
 import { Text, View } from "react-native";
@@ -15,7 +15,7 @@ function AdminActionCard({
   title,
   description,
   buttonText,
-  onPress,
+  onPress
 }: {
   icon: keyof typeof Ionicons.glyphMap;
   title: string;
@@ -31,7 +31,7 @@ function AdminActionCard({
         borderColor: theme.colors.border,
         borderRadius: 24,
         padding: 20,
-        marginBottom: 16,
+        marginBottom: 16
       }}
     >
       <View style={{ alignItems: "center", marginBottom: 12 }}>
@@ -44,7 +44,7 @@ function AdminActionCard({
           fontFamily: "CinzelBold",
           fontSize: 22,
           textAlign: "center",
-          marginBottom: 8,
+          marginBottom: 8
         }}
       >
         {title}
@@ -57,7 +57,7 @@ function AdminActionCard({
           fontSize: 14,
           lineHeight: 22,
           textAlign: "center",
-          marginBottom: 16,
+          marginBottom: 16
         }}
       >
         {description}
@@ -69,14 +69,21 @@ function AdminActionCard({
 }
 
 export default function AdminTabScreen() {
-  const { user } = useAuth();
-  const isAdmin = isAdminEmail(user?.email);
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <AppShell>
+        <BrandHeader size="sm" />
+      </AppShell>
+    );
+  }
 
   if (!user) {
     return <Redirect href="/login" />;
   }
 
-  if (!isAdmin) {
+  if (!isAdminEmail(user.email)) {
     return <Redirect href="/(tabs)/home" />;
   }
 

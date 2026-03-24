@@ -1,7 +1,7 @@
-// File: app/(tabs)/admin-prayer-requests.tsx
+// FILE: app/(tabs)/admin-prayer-requests.tsx
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, Text, View } from "react-native";
-import { router } from "expo-router";
+import { Redirect } from "expo-router";
 import AppShell from "../../components/AppShell";
 import GoldButton from "../../components/GoldButton";
 import BrandHeader from "../../components/BrandHeader";
@@ -11,41 +11,53 @@ import { isAdminEmail } from "../../constants/admin";
 import {
   deletePrayerRequest,
   markPrayerRequestAsPrayed,
-  subscribeToPrayerRequests
+  subscribeToPrayerRequests,
+  type PrayerRequest
 } from "../../services/prayerRequests";
 
-type PrayerRequestItem = {
-  id: string;
-  userId: string;
-  name: string;
-  email: string;
-  request: string;
-  isPrivate: boolean;
-  status?: "new" | "praying" | "completed";
-  createdAt?: string;
-};
-
 export default function AdminPrayerRequestsScreen() {
-  const { user } = useAuth();
-  const [items, setItems] = useState<PrayerRequestItem[]>([]);
+  const { user, loading: authLoading } = useAuth();
+  const [items, setItems] = useState<PrayerRequest[]>([]);
   const [loading, setLoading] = useState(true);
+  const [listenerError, setListenerError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!isAdminEmail(user?.email)) {
-      router.replace("/(tabs)/profile");
-      return;
-    }
+    if (authLoading) return;
+    if (!isAdminEmail(user?.email)) return;
 
-    const unsubscribe = subscribeToPrayerRequests((docs) => {
-      setItems((docs || []) as PrayerRequestItem[]);
-      setLoading(false);
-    });
+    setLoading(true);
+    setListenerError(null);
 
-    return unsubscribe;
-  }, [user?.email]);
+    const unsubscribe = subscribeToPrayerRequests(
+      (docs) => {
+        setItems(Array.isArray(docs) ? docs : []);
+        setLoading(false);
+      },
+      (error) => {
+        setListenerError(error?.message || "Failed to load prayer requests.");
+        setLoading(false);
+      }
+    );
 
-  if (!isAdminEmail(user?.email)) {
-    return null;
+    return () => {
+      unsubscribe();
+    };
+  }, [authLoading, user?.email]);
+
+  if (authLoading) {
+    return (
+      <AppShell>
+        <BrandHeader size="sm" />
+      </AppShell>
+    );
+  }
+
+  if (!user) {
+    return <Redirect href="/login" />;
+  }
+
+  if (!isAdminEmail(user.email)) {
+    return <Redirect href="/(tabs)/home" />;
   }
 
   return (
@@ -78,6 +90,27 @@ export default function AdminPrayerRequestsScreen() {
 
           {loading ? (
             <ActivityIndicator size="large" color={theme.colors.gold} />
+          ) : listenerError ? (
+            <View
+              style={{
+                backgroundColor: "rgba(255,255,255,0.04)",
+                borderWidth: 1,
+                borderColor: theme.colors.border,
+                borderRadius: 18,
+                padding: 16
+              }}
+            >
+              <Text
+                style={{
+                  color: theme.colors.text,
+                  fontFamily: "MontserratMedium",
+                  fontSize: 15,
+                  lineHeight: 22
+                }}
+              >
+                {listenerError}
+              </Text>
+            </View>
           ) : items.length === 0 ? (
             <Text
               style={{
@@ -149,14 +182,14 @@ export default function AdminPrayerRequestsScreen() {
 
                 <GoldButton
                   title="Mark as Prayed"
-                  onPress={() => markPrayerRequestAsPrayed(item.id)}
+                  onPress={() => void markPrayerRequestAsPrayed(item.id)}
                 />
 
                 <View style={{ height: 10 }} />
 
                 <GoldButton
                   title="Delete Request"
-                  onPress={() => deletePrayerRequest(item.id)}
+                  onPress={() => void deletePrayerRequest(item.id)}
                 />
               </View>
             ))

@@ -1,4 +1,4 @@
-// File: services/prayerRequests.ts
+// FILE: services/prayerRequests.ts
 import {
   addDoc,
   collection,
@@ -45,18 +45,28 @@ export async function createPrayerRequest(data: {
 }
 
 export function subscribeToPrayerRequests(
-  callback: (items: PrayerRequest[]) => void
+  onData: (items: PrayerRequest[]) => void,
+  onError?: (error: Error) => void
 ) {
   const q = query(prayerRef, orderBy("serverCreatedAt", "desc"));
 
-  return onSnapshot(q, (snapshot) => {
-    const items: PrayerRequest[] = snapshot.docs.map((item) => ({
-      id: item.id,
-      ...(item.data() as Omit<PrayerRequest, "id">)
-    }));
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const items: PrayerRequest[] = snapshot.docs.map((item) => ({
+        id: item.id,
+        ...(item.data() as Omit<PrayerRequest, "id">)
+      }));
 
-    callback(items);
-  });
+      onData(items);
+    },
+    (error) => {
+      console.error("Prayer requests listener failed:", error);
+      if (onError) {
+        onError(error);
+      }
+    }
+  );
 }
 
 export async function markPrayerRequestAsPrayed(id: string) {

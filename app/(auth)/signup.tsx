@@ -1,4 +1,4 @@
-// File: app/(auth)/signup.tsx
+// FILE: app/(auth)/signup.tsx
 import React, { useState } from "react";
 import { Alert, Platform, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
@@ -33,7 +33,7 @@ export default function SignupScreen() {
     try {
       setLoading(true);
       await signup(name.trim(), email.trim(), password);
-      router.replace("/home");
+      router.replace("/(tabs)/home");
     } catch (error: any) {
       showMessage("Signup failed", error?.message || "Could not create account.");
     } finally {

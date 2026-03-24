@@ -1,4 +1,4 @@
-// File: app/(auth)/login.tsx
+// FILE: app/(auth)/login.tsx
 import React, { useState } from "react";
 import { Alert, Platform, Text, TextInput, View } from "react-native";
 import { router } from "expo-router";
@@ -32,7 +32,7 @@ export default function LoginScreen() {
     try {
       setLoading(true);
       await login(email.trim(), password);
-      router.replace("/home");
+      router.replace("/(tabs)/home");
     } catch (error: any) {
       showMessage("Login failed", error?.message || "Could not log in.");
     } finally {
