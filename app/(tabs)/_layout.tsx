@@ -1,85 +1,149 @@
-// File: app/_layout.tsx
-import "react-native-gesture-handler";
-import React, { useEffect, useRef, useState } from "react";
-import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import { useFonts } from "expo-font";
-import { Cinzel_600SemiBold, Cinzel_700Bold } from "@expo-google-fonts/cinzel";
-import {
-  Montserrat_500Medium,
-  Montserrat_600SemiBold,
-  Montserrat_700Bold
-} from "@expo-google-fonts/montserrat";
-import { AuthProvider } from "../context/AuthContext";
-import StartupErrorBoundary from "../components/StartupErrorBoundary";
+// File: app/(tabs)/_layout.tsx
+import React from "react";
+import { Tabs } from "expo-router";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { theme } from "../../constants/theme";
+import { useAuth } from "../../context/AuthContext";
+import { isAdminEmail } from "../../constants/admin";
 
-export default function RootLayout() {
-  const splashPreparedRef = useRef(false);
-  const [splashPrepared, setSplashPrepared] = useState(false);
-
-  const [loaded, error] = useFonts({
-    CinzelSemiBold: Cinzel_600SemiBold,
-    CinzelBold: Cinzel_700Bold,
-    MontserratMedium: Montserrat_500Medium,
-    MontserratSemiBold: Montserrat_600SemiBold,
-    MontserratBold: Montserrat_700Bold
-  });
-
-  useEffect(() => {
-    let isMounted = true;
-
-    async function prepareSplashSafely() {
-      if (splashPreparedRef.current) {
-        if (isMounted) {
-          setSplashPrepared(true);
-        }
-        return;
-      }
-
-      splashPreparedRef.current = true;
-
-      try {
-        await SplashScreen.preventAutoHideAsync();
-      } catch (startupError) {
-        console.error("SplashScreen.preventAutoHideAsync failed:", startupError);
-      } finally {
-        if (isMounted) {
-          setSplashPrepared(true);
-        }
-      }
-    }
-
-    void prepareSplashSafely();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!splashPrepared) return;
-    if (!loaded && !error) return;
-
-    async function hideSplashSafely() {
-      try {
-        await SplashScreen.hideAsync();
-      } catch (hideError) {
-        console.error("SplashScreen.hideAsync failed:", hideError);
-      }
-    }
-
-    void hideSplashSafely();
-  }, [splashPrepared, loaded, error]);
-
-  if (!splashPrepared || (!loaded && !error)) {
-    return null;
-  }
+export default function TabsLayout() {
+  const { user, loading } = useAuth();
+  const isAdmin = isAdminEmail(user?.email);
 
   return (
-    <StartupErrorBoundary>
-      <AuthProvider>
-        <Stack screenOptions={{ headerShown: false }} />
-      </AuthProvider>
-    </StartupErrorBoundary>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        sceneStyle: {
+          backgroundColor: "transparent"
+        },
+        tabBarStyle: {
+          backgroundColor: "#060606",
+          borderTopColor: theme.colors.border,
+          height: 72,
+          paddingTop: 8,
+          paddingBottom: 10
+        },
+        tabBarLabelStyle: {
+          fontFamily: "MontserratSemiBold",
+          fontSize: 11,
+          marginTop: 2
+        },
+        tabBarActiveTintColor: theme.colors.gold,
+        tabBarInactiveTintColor: "#8A8A8A"
+      }}
+    >
+      <Tabs.Screen
+        name="home"
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? "home" : "home-outline"} size={size} color={color} />
+          )
+        }}
+      />
+
+      <Tabs.Screen
+        name="live"
+        options={{
+          title: "Live",
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "play-circle" : "play-circle-outline"}
+              size={size}
+              color={color}
+            />
+          )
+        }}
+      />
+
+      <Tabs.Screen
+        name="prayer"
+        options={{
+          title: "Prayer",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="hands-pray" size={size} color={color} />
+          )
+        }}
+      />
+
+      <Tabs.Screen
+        name="community"
+        options={{
+          title: "People",
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "people" : "people-outline"}
+              size={size}
+              color={color}
+            />
+          )
+        }}
+      />
+
+      <Tabs.Screen
+        name="admin"
+        options={{
+          title: "Admin",
+          href: !loading && isAdmin ? "/(tabs)/admin" : null,
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "shield-checkmark" : "shield-checkmark-outline"}
+              size={size}
+              color={color}
+            />
+          )
+        }}
+      />
+
+      <Tabs.Screen
+        name="admin-prayer-requests"
+        options={{
+          href: null
+        }}
+      />
+
+      <Tabs.Screen
+        name="admin-home-content"
+        options={{
+          href: null
+        }}
+      />
+
+      <Tabs.Screen
+        name="admin-ministries"
+        options={{
+          href: null
+        }}
+      />
+
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Me",
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "person" : "person-outline"}
+              size={size}
+              color={color}
+            />
+          )
+        }}
+      />
+
+      <Tabs.Screen
+        name="giving"
+        options={{
+          title: "Giving",
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? "heart" : "heart-outline"}
+              size={size}
+              color={color}
+            />
+          )
+        }}
+      />
+    </Tabs>
   );
 }

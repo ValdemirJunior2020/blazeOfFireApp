@@ -1,4 +1,4 @@
-// File: context/AuthContext.tsx
+// C:\Users\Valdemir Goncalves\Desktop\pROJETUS-2026\blazeOfFireApp\context\AuthContext.tsx
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import {
   User,
@@ -56,33 +56,50 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(
-      auth,
-      (firebaseUser) => {
-        try {
-          if (!firebaseUser) {
+    let mounted = true;
+    let unsubscribe: (() => void) | undefined;
+
+    try {
+      unsubscribe = onAuthStateChanged(
+        auth,
+        (firebaseUser) => {
+          if (!mounted) return;
+
+          try {
+            if (!firebaseUser) {
+              setUser(null);
+              setLoading(false);
+              return;
+            }
+
+            const normalized = toAppUser(firebaseUser);
+            setUser(normalized);
+            setLoading(false);
+          } catch (error) {
+            console.error("Auth state change failed:", error);
             setUser(null);
             setLoading(false);
-            return;
           }
-
-          const normalized = toAppUser(firebaseUser);
-          setUser(normalized);
-          setLoading(false);
-        } catch (error) {
-          console.error("Auth state change failed:", error);
+        },
+        (error) => {
+          if (!mounted) return;
+          console.error("onAuthStateChanged listener failed:", error);
           setUser(null);
           setLoading(false);
         }
-      },
-      (error) => {
-        console.error("onAuthStateChanged listener failed:", error);
-        setUser(null);
-        setLoading(false);
-      }
-    );
+      );
+    } catch (error) {
+      console.error("Failed to attach auth listener:", error);
+      setUser(null);
+      setLoading(false);
+    }
 
-    return unsubscribe;
+    return () => {
+      mounted = false;
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, []);
 
   const login = async (email: string, password: string) => {

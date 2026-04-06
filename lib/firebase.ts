@@ -1,4 +1,4 @@
-// File: lib/firebase.ts
+// C:\Users\Valdemir Goncalves\Desktop\pROJETUS-2026\blazeOfFireApp\lib\firebase.ts
 import { FirebaseApp, getApp, getApps, initializeApp } from "firebase/app";
 import { Auth, getAuth } from "firebase/auth";
 import { Firestore, getFirestore } from "firebase/firestore";

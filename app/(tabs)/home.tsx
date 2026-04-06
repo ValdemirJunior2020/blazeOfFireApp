@@ -1,6 +1,6 @@
-// File: app/(tabs)/home.tsx
+// C:\Users\Valdemir Goncalves\Desktop\pROJETUS-2026\blazeOfFireApp\app\(tabs)\home.tsx
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator, InteractionManager, Text, View } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import AppShell from "../../components/AppShell";
@@ -64,24 +64,41 @@ function HomeInfoCard({
 
 export default function HomeScreen() {
   const verse = getVerseOfTheDay();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(true);
   const [content, setContent] = useState<HomeContent>(defaultHomeContent);
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const data = await getHomeContent();
-        setContent(data);
-      } catch (error) {
-        console.error("Failed to load home content:", error);
-      } finally {
-        setLoading(false);
+    if (authLoading) {
+      return;
+    }
+
+    let cancelled = false;
+
+    const task = InteractionManager.runAfterInteractions(() => {
+      void (async () => {
+        try {
+          const data = await getHomeContent();
+          if (!cancelled) {
+            setContent(data);
+          }
+        } catch (error) {
+          console.error("Failed to load home content:", error);
+        } finally {
+          if (!cancelled) {
+            setLoading(false);
+          }
+        }
+      })();
+    });
+
+    return () => {
+      cancelled = true;
+      if (typeof task.cancel === "function") {
+        task.cancel();
       }
     };
-
-    void load();
-  }, []);
+  }, [authLoading]);
 
   const canEditHome = isAdminEmail(user?.email);
 
