@@ -1,4 +1,4 @@
-// File: app/(tabs)/giving.tsx
+// C:\Users\Valdemir Goncalves\Desktop\pROJETUS-2026\blazeOfFireApp\app\(tabs)\giving.tsx
 import React from "react";
 import { Alert, Linking, Text, View } from "react-native";
 import AppShell from "../../components/AppShell";
@@ -7,6 +7,8 @@ import GoldButton from "../../components/GoldButton";
 import { theme } from "../../constants/theme";
 
 const PAYPAL_URL = "https://www.paypal.com/paypalme/blazeoffire";
+const ZELLE_EMAIL = "blazeoffirehub@gmail.com";
+const ZELLE_MAILTO = `mailto:${ZELLE_EMAIL}`;
 
 export default function GivingScreen() {
   const openPayPal = async () => {
@@ -24,6 +26,21 @@ export default function GivingScreen() {
     }
   };
 
+  const openZelleEmail = async () => {
+    try {
+      const supported = await Linking.canOpenURL(ZELLE_MAILTO);
+
+      if (!supported) {
+        Alert.alert("Zelle", `Please send your donation through Zelle to ${ZELLE_EMAIL}`);
+        return;
+      }
+
+      await Linking.openURL(ZELLE_MAILTO);
+    } catch (error) {
+      Alert.alert("Zelle", `Please send your donation through Zelle to ${ZELLE_EMAIL}`);
+    }
+  };
+
   return (
     <AppShell>
       <BrandHeader size="sm" />
@@ -35,6 +52,7 @@ export default function GivingScreen() {
           borderColor: theme.colors.border,
           borderRadius: 24,
           padding: 20,
+          marginBottom: 16
         }}
       >
         <Text
@@ -42,7 +60,7 @@ export default function GivingScreen() {
             color: theme.colors.gold,
             fontFamily: "CinzelBold",
             fontSize: 24,
-            marginBottom: 10,
+            marginBottom: 10
           }}
         >
           Give / Donate
@@ -54,10 +72,10 @@ export default function GivingScreen() {
             fontFamily: "MontserratMedium",
             fontSize: 15,
             lineHeight: 24,
-            marginBottom: 18,
+            marginBottom: 18
           }}
         >
-          Support Blaze of Fire Revival Global Center through PayPal.
+          Support Blaze of Fire Revival Global Center through PayPal or Zelle.
         </Text>
 
         <GoldButton title="Donate with PayPal" onPress={openPayPal} />
@@ -68,9 +86,23 @@ export default function GivingScreen() {
             fontFamily: "MontserratMedium",
             fontSize: 12,
             marginTop: 14,
+            marginBottom: 18
           }}
         >
           PayPal: {PAYPAL_URL}
+        </Text>
+
+        <GoldButton title="Donate with Zelle" onPress={openZelleEmail} />
+
+        <Text
+          style={{
+            color: "#CFCFCF",
+            fontFamily: "MontserratMedium",
+            fontSize: 12,
+            marginTop: 14
+          }}
+        >
+          Zelle: {ZELLE_EMAIL}
         </Text>
       </View>
     </AppShell>
