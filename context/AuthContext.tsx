@@ -1,4 +1,4 @@
-// FILE: context/AuthContext.tsx
+// File: context/AuthContext.tsx
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import {
   User,
@@ -9,10 +9,9 @@ import {
   signOut,
   updateProfile
 } from "firebase/auth";
-import { doc, deleteDoc } from "firebase/firestore";
+import { deleteDoc, doc } from "firebase/firestore";
 import { auth, db } from "../lib/firebase";
 import { isAdminEmail } from "../constants/admin";
-import { createOrUpdateUserProfile } from "../services/users";
 
 export type AppUser = {
   uid: string;
@@ -41,54 +40,56 @@ function toAppUser(firebaseUser: User): AppUser {
   };
 }
 
+async function syncUserProfileSafely(appUser: AppUser) {
+  try {
+    const usersModule = await import("../services/users");
+    if (typeof usersModule.createOrUpdateUserProfile === "function") {
+      await usersModule.createOrUpdateUserProfile(appUser);
+    }
+  } catch (error) {
+    console.error("Failed to sync user profile:", error);
+  }
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const syncUser = async (firebaseUser: User | null) => {
-    if (!firebaseUser) {
-      setUser(null);
-      return;
-    }
-
-    const normalized = toAppUser(firebaseUser);
-    setUser(normalized);
-
-    try {
-      await createOrUpdateUserProfile(normalized);
-    } catch (error) {
-      console.error("Failed to sync user profile:", error);
-    }
-  };
-
   useEffect(() => {
-    let mounted = true;
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (firebaseUser) => {
+        try {
+          if (!firebaseUser) {
+            setUser(null);
+            setLoading(false);
+            return;
+          }
 
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      try {
-        if (!mounted) return;
-        await syncUser(firebaseUser);
-      } catch (error) {
-        console.error("Auth state change failed:", error);
-        if (mounted) {
+          const normalized = toAppUser(firebaseUser);
+          setUser(normalized);
+          setLoading(false);
+        } catch (error) {
+          console.error("Auth state change failed:", error);
           setUser(null);
-        }
-      } finally {
-        if (mounted) {
           setLoading(false);
         }
+      },
+      (error) => {
+        console.error("onAuthStateChanged listener failed:", error);
+        setUser(null);
+        setLoading(false);
       }
-    });
+    );
 
-    return () => {
-      mounted = false;
-      unsubscribe();
-    };
+    return unsubscribe;
   }, []);
 
   const login = async (email: string, password: string) => {
     const result = await signInWithEmailAndPassword(auth, email, password);
-    await syncUser(result.user);
+    const normalized = toAppUser(result.user);
+    setUser(normalized);
+    await syncUserProfileSafely(normalized);
   };
 
   const signup = async (name: string, email: string, password: string) => {
@@ -97,7 +98,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await result.user.reload();
 
     const refreshedUser = auth.currentUser ?? result.user;
-    await syncUser(refreshedUser);
+    const normalized = toAppUser(refreshedUser);
+    setUser(normalized);
+    await syncUserProfileSafely(normalized);
   };
 
   const logout = async () => {
